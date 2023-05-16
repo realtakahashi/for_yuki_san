@@ -1,0 +1,39 @@
+[package]
+name = "openbrush_lang_macro"
+version = "3.0.0"
+authors = ["Brushfam <green@727.ventures>"]
+edition = "2021"
+
+license = "MIT"
+repository = "https://github.com/727-Ventures/openbrush-contracts"
+documentation = "https://docs.openbrush.io"
+homepage = "https://727.ventures"
+description = "OpenBrush macros to extend functionality of the ink!."
+keywords = ["wasm", "brushfam", "smart-contracts", "blockchain", "ink"]
+categories = ["no-std", "embedded"]
+include = ["Cargo.toml", "src/**/*.rs"]
+
+[dependencies]
+openbrush_lang_codegen = { version = "~3.0.0", path = "../codegen", default-features = false }
+syn = "1"
+proc-macro2 = "1"
+synstructure = "0.12"
+
+[dev-dependencies]
+ink = { version = "4.1.0", default-features = false}
+
+scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
+scale-info = { version = "2.3", default-features = false, features = ["derive"] }
+
+openbrush = { package = "openbrush_lang", path = "..", default-features = false }
+
+[lib]
+name = "openbrush_lang_macro"
+path = "src/lib.rs"
+proc-macro = true
+
+[features]
+default = ["std"]
+std = [
+    "openbrush_lang_codegen/std",
+]

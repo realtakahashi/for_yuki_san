@@ -1,0 +1,89 @@
+[workspace]
+members = [
+    "contracts",
+    "lang",
+]
+
+exclude = [
+    "examples",
+    "example_project_structure",
+    "mock"
+]
+
+[package]
+name = "openbrush"
+version = "3.0.0"
+authors = ["Brushfam <green@727.ventures>"]
+edition = "2018"
+
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/727-Ventures/openbrush-contracts"
+documentation = "https://docs.openbrush.io"
+homepage = "https://727.ventures"
+description = "OpenBrush library for smart contract development on ink!."
+keywords = ["wasm", "brushfam", "smart-contracts", "blockchain", "ink"]
+categories = ["no-std", "embedded"]
+include = ["Cargo.toml", "src/**/*.rs"]
+
+[dependencies]
+ink = { version = "4.1.0", default-features = false}
+scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
+scale-info = { version = "2.3", default-features = false, features = ["derive"], optional = true }
+
+openbrush_contracts = { version = "~3.0.0", path = "contracts", default-features = false }
+openbrush_lang = { version = "~3.0.0", path = "lang", default-features = false }
+
+[lib]
+name = "openbrush"
+path = "src/lib.rs"
+crate-type = [
+    "rlib",
+]
+
+[features]
+default = ["std"]
+std = [
+    "ink/std",
+    "scale/std",
+    "scale-info/std",
+    "openbrush_contracts/std",
+    "openbrush_lang/std",
+]
+psp22 = ["openbrush_contracts/psp22"]
+psp22_pallet = ["openbrush_contracts/psp22_pallet"]
+psp34 = ["openbrush_contracts/psp34"]
+psp37 = ["openbrush_contracts/psp37"]
+access_control = ["openbrush_contracts/access_control"]
+ownable = ["openbrush_contracts/ownable"]
+payment_splitter = ["openbrush_contracts/payment_splitter"]
+reentrancy_guard = ["openbrush_contracts/reentrancy_guard"]
+pausable = ["openbrush_contracts/pausable"]
+timelock_controller = ["openbrush_contracts/timelock_controller"]
+proxy = ["openbrush_contracts/proxy"]
+diamond = ["openbrush_contracts/diamond"]
+
+test-all = [
+    "psp22",
+    # "psp22_pallet", we ignore it during testing. It requries it own run of tests
+    "psp34",
+    "psp37",
+    "access_control",
+    "ownable",
+    "payment_splitter",
+    "reentrancy_guard",
+    "pausable",
+    "timelock_controller",
+    "proxy",
+    "diamond",
+]
+
+[profile.release]
+panic = "abort"
+lto = false
+
+[profile.dev]
+
+panic = "abort"
+lto = false
+overflow-checks = false

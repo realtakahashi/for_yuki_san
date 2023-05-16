@@ -1,0 +1,40 @@
+[package]
+name = "openbrush_lang"
+version = "3.0.0"
+authors = ["Brushfam <green@727.ventures>"]
+edition = "2021"
+
+license = "MIT"
+repository = "https://github.com/727-Ventures/openbrush-contracts"
+documentation = "https://docs.openbrush.io"
+homepage = "https://727.ventures"
+description = "Aggregator of all openbrush functionality and utils."
+keywords = ["wasm", "brushfam", "smart-contracts", "blockchain", "ink"]
+categories = ["no-std", "embedded"]
+include = ["Cargo.toml", "src/**/*.rs"]
+
+[dependencies]
+openbrush_lang_macro = { version = "~3.0.0", path = "macro", default-features = false }
+
+ink = { version = "4.1.0", default-features = false}
+scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
+scale-info = { version = "2.3", default-features = false, features = ["derive"] }
+
+xxhash-rust = { version = "0.8", features = ["const_xxh32"] }
+const_format = "0.2.21"
+
+[lib]
+name = "openbrush_lang"
+path = "src/lib.rs"
+crate-type = [
+    "rlib",
+]
+
+[features]
+default = ["std"]
+std = [
+    "openbrush_lang_macro/std",
+    "ink/std",
+    "scale/std",
+    "scale-info/std",
+]

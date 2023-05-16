@@ -1,0 +1,73 @@
+[package]
+name = "openbrush_contracts"
+version = "3.0.0"
+authors = ["Brushfam <green@727.ventures>"]
+edition = "2021"
+
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/727-Ventures/openbrush-contracts"
+documentation = "https://docs.openbrush.io"
+homepage = "https://727.ventures"
+description = "Reusable implementations of contracts and traits for interaction with them."
+keywords = ["wasm", "brushfam", "smart-contracts", "blockchain", "ink"]
+categories = ["no-std", "embedded"]
+include = ["Cargo.toml", "src/**/*.rs"]
+
+[dependencies]
+ink = { version = "4.1.0", default-features = false}
+scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
+scale-info = { version = "2.3", default-features = false, features = ["derive"], optional = true }
+
+openbrush = { version = "~3.0.0", package = "openbrush_lang", path = "../lang", default-features = false }
+
+pallet-assets-chain-extension = { git = "https://github.com/727-ventures/pallet-assets-chain-extension", branch = "polkadot-v0.9.37", default-features = false, features = ["ink-lang"]  }
+
+[lib]
+name = "openbrush_contracts"
+path = "src/lib.rs"
+crate-type = [
+    "rlib",
+]
+
+[features]
+default = ["std"]
+std = [
+    "ink/std",
+    "scale/std",
+    "scale-info/std",
+    "openbrush/std",
+    "pallet-assets-chain-extension/ink-std",
+]
+psp22 = []
+psp22_pallet = []
+psp34 = []
+psp37 = []
+access_control = []
+ownable = []
+payment_splitter = []
+reentrancy_guard = []
+pausable = []
+timelock_controller = [
+    "access_control",
+]
+proxy = [
+    "ownable",
+]
+diamond = [
+    "ownable",
+]
+test-all = [
+    "psp22",
+    # "psp22_pallet", we ignore it during testing. It requries it own run of tests
+    "psp34",
+    "psp37",
+    "access_control",
+    "ownable",
+    "payment_splitter",
+    "reentrancy_guard",
+    "pausable",
+    "timelock_controller",
+    "proxy",
+    "diamond",
+]
